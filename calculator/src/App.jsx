@@ -6,7 +6,7 @@ function App() {
 
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-const operators = [{name:'clear', function: clear}]
+const operators = [{name:'+', function: addition},{name:'AC', function: clear}]
 
 const [screen, setScreen] = useState({
   display: [0],
@@ -18,6 +18,15 @@ function clear(){
     display: [0],
     memory: null
   })
+}
+
+function addition(){
+  setScreen({...screen, memory:screen.display})
+  console.log(screen)
+}
+
+function equals(){
+
 }
 
 function handleAddNumber(e){
