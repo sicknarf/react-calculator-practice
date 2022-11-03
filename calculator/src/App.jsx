@@ -7,16 +7,19 @@ function App() {
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 const [refreshToggle, setRefreshToggle] = useState(true)
 const operators = [
-  {name:'=', function: equalsHandler},
   {name:'+', function: additionHandler},
+  {name:'-', function: subtractionHandler},
+  {name:'x', function: multiplicationHandler},
   {name:'AC', function: clear},
+  {name:'=', function: equalsHandler},
   {name:'console log', function: logIt}
 ]
 
 const [screen, setScreen] = useState({
   display: 0,
   memory: null,
-  function: null
+  function: null,
+  lastNumber: null
 })
 
 function logIt(){
@@ -33,20 +36,39 @@ function clear(){
 }
 
 function additionHandler(){
-  console.log('this is screen.display')
-  console.log(screen.display)
   setScreen({...screen, memory: screen.display, function: addition})
   setRefreshToggle(true)
-  console.log(screen)
+}
+
+function subtractionHandler(){
+  setScreen({...screen, memory: screen.display, function: subtraction})
+  setRefreshToggle(true)
+}
+
+function multiplicationHandler(){
+  setScreen({...screen, memory: screen.display, function: multiplication})
+  setRefreshToggle(true)
 }
 
 function addition(a, b){
   return a + b
 }
 
+function subtraction(a, b){
+  return a - b
+}
+
+function multiplication(a, b){
+  return a * b
+}
+
 function equalsHandler(){
-  console.log(screen.memory)
-  setScreen({...screen, display:screen.function(parseInt(screen.memory), parseInt(screen.display))})
+  if(screen.lastNumber===null){
+    let memory = screen.display
+    setScreen({...screen, display:screen.function(parseInt(screen.memory), parseInt(screen.display)), memory: memory})
+  } else {
+    setScreen({...screen, display:screen.function(parseInt(screen.memory), parseInt(screen.display))})
+  }
 }
 
 function handleAddNumber(e){
